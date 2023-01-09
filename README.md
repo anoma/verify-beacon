@@ -2,12 +2,11 @@ verify-beacon
 =============
 
 This is for computing and verifying the [randomness beacon][beacon] used in the
-[Powers of Tau][ceremony] and Sapling MPC ceremonies, using hardware
-acceleration if available.
+MASP MPC ceremony, using hardware acceleration if available. Based on https://github.com/plutomonkey/verify-beacon
 
-The beacon is computed using 2^42 iterations of SHA-256.
+The beacon is computed using 2^42 iterations of SHA-256 on the SHA256 hash of the three block hashes.
 
-The files `powersoftau.txt` and `sapling.txt` each contain 1025 hashes (1024
+The file `masp.txt` contains 1028 hashes (3 block hashes and 1024
 sequential pairs), allowing the beacon to be verified more quickly in parallel.
 
 Two hardware-accelerated implementations are available, along with a
@@ -20,8 +19,8 @@ Usage
 *Important:* binaries _must_ be compiled with `RUSTFLAGS='-C
 target-cpu=native'` to enable hardware-acceleration.
 
-* `cargo run --release --bin compute > pairs.txt`
-* `cargo run --release --bin verify < pairs.txt`
+* `cargo run --release --bin compute > masp.txt`
+* `cargo run --release --bin verify < masp.txt`
 
 Benchmarks
 ----------
@@ -29,6 +28,6 @@ Benchmarks
 The time taken is around 130 cycles per iteration on AMD Ryzen, which is ~1h45m
 to verify on on 24 cores running at 3.8GHz.
 
-[beacon]: https://lists.z.cash.foundation/pipermail/zapps-wg/2018/000267.html
-[ceremony]: https://z.cash.foundation/blog/powers-of-tau/
+[beacon]: https://twitter.com/namadanetwork/status/1605538847378395137
+[ceremony]: https://ceremony.namada.net/
 [intel]: https://en.wikipedia.org/wiki/Intel_SHA_extensions
